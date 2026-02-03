@@ -4,7 +4,7 @@ import java.util.Set;
 /**
  * Filename: GraphADT.java 
  * Project: a3 
- * Author: Jake Wesson
+ * Author: Jane Wesson
  * 
  * This interface describes methods for a graph class.
  */
