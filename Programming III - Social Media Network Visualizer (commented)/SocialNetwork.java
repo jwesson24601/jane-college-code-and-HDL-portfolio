@@ -15,7 +15,7 @@ import java.util.PriorityQueue;
 /**
  * This class represents the social network that the GUI directly interfaces to.
  * 
- * @author Jake Wesson and Nate Smith
+ * @author Jane Wesson and Nate Smith
  */
 public class SocialNetwork implements SocialNetworkADT {
   private Graph graph; // the graph containing all the info
@@ -209,7 +209,7 @@ public class SocialNetwork implements SocialNetworkADT {
    * to function correctly. Since the default java priority queue works on "natural ordering"
    * according to the API, this class implements Comparable in order to determine priority.
    * 
-   * @author Jake Wesson
+   * @author Jane Wesson
    *
    */
   private class inPq implements Comparable<inPq> {
@@ -289,7 +289,7 @@ public class SocialNetwork implements SocialNetworkADT {
         break;
       }
     }
-    // start of actual algorithm (first non-setup thing)F
+    // start of actual algorithm (first non-setup thing)
     while (!pq.isEmpty()) {
       inPq currNode = pq.poll();
       visited[people.indexOf(currNode.thePerson)] = true;
@@ -458,3 +458,4 @@ public class SocialNetwork implements SocialNetworkADT {
 
 
 }
+
