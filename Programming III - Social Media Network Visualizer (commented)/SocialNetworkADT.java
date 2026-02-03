@@ -8,7 +8,7 @@ import java.util.Set;
  * This interface describes how to create a social network to correctly interact with the GUI
  * defined in Main.java.
  * 
- * @author Nate Smith and Jake Wesson
+ * @author Nate Smith and Jane Wesson
  */
 public interface SocialNetworkADT {
 
