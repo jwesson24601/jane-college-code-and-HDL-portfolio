@@ -15,32 +15,32 @@ class GraphTest {
     Person person = new Person("John Flansburgh");
     graph.addNode(person);
     if (graph.order() != 1) {
-      fail("shid");
+      fail("wrong order");
     }
     if (graph.getNode("John Flansburgh") == null || !graph.getNode("John Flansburgh").getName().equals("John Flansburgh")) {
-      fail("oh no");
+      fail("created node is null or has wrong name");
     }
     if (!graph.getAllNodes().contains(person)) {
-      fail("dangit");
+      fail("getAllNodes did not find node");
     }
     if (graph.getNeighbors(person).size() != 0) {
-      fail("bitch");
+      fail("node should have no neighbors");
     }
     if (graph.size() != 0) {
-      fail("fuck");
+      fail("number of vertices should be zero");
     }
     if (graph.order() != 1) {
-      fail("drongus");
+      fail("number of nodes should be one");
     }
     graph.removeNode(person);
     if (graph.order() != 0) {
-      fail("dingus");
+      fail("number of nodes did not decrease after removal");
     }
     if (graph.getNode("John Flansburgh") != null) {
-      fail("oh my aching tentacles");
+      fail("found node after node removed");
     }
     if (graph.getAllNodes().contains(person)) {
-      fail("whatcha doing kirby");
+      fail("list of nodes included node after removal");
     }
   }
   
@@ -48,27 +48,27 @@ class GraphTest {
   void test01_empty() {
     Person person = new Person("John Flansburgh");
     if (graph.getNeighbors(person) != null) {
-      fail("bitch");
+      fail("getNeighbors returned wrong value for empty");
     }
     if (graph.size() != 0) {
-      fail("fuck");
+      fail("empty graph number of vertices is non-zero");
     }
     if (graph.order() != 0) {
-      fail("dingus");
+      fail("empty graph number of nodes is non-zero");
     }
     if (graph.getNode("John Flansburgh") != null) {
-      fail("oh my aching tentacles");
+      fail("getNode returned non-null for empty graph");
     }
     if (graph.getAllNodes().contains(person)) {
-      fail("whatcha doing kirby");
+      fail("empty graph contained a node");
     }
     if (graph.removeNode(person) != 0) {
-      fail("ojuefoiasdf");
+      fail("removeNode returned wrong for empty graph");
     }
   }
   
   @Test
-  void test02_shit_ton_of_nodes() {
+  void test02_lots_of_nodes() {
     Person person1 = new Person("John Flansburgh");
     Person person2 = new Person("John Linnel");
     Person person3 = new Person("Ian Paice");
@@ -90,3 +90,4 @@ class GraphTest {
   }
 
 }
+
