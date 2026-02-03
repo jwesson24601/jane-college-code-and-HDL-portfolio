@@ -7,7 +7,7 @@ import java.util.HashSet;
 /**
  * Filename: Graph.java 
  * Project: Social Network Visualizer 
- * a3 Authors: Jake Wesson
+ * a3 Authors: Jane Wesson
  * 
  * This class is an undirected and unweighted graph implementation.
  */
@@ -17,7 +17,7 @@ public class Graph implements GraphADT {
    * This inner class represents each node added into the graph. It contains a person and a list of
    * friends associated with that person.
    * 
-   * @author Jake Wesson
+   * @author Jane Wesson
    */
   private class GraphNode {
 
