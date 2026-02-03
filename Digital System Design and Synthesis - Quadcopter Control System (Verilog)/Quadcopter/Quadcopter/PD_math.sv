@@ -1,0 +1,56 @@
+module PD_math(clk, rst_n, vld, desired, actual, pterm, dterm);
+
+  input clk, rst_n, vld;
+  input [15:0] desired, actual;
+  output [9:0] pterm;
+  output [11:0] dterm;
+
+  localparam D_QUEUE_DEPTH = 12;
+  wire [16:0] err, ext_desired, ext_actual;
+  wire [9:0] err_sat, D_diff, half_err, eigth_err;
+  reg [9:0] prev_err [0:D_QUEUE_DEPTH-1];
+  wire signed [6:0] D_diff_sat;
+  localparam derivative_term = 5'b00111;
+  integer i;
+
+  // sign extend block
+  assign ext_desired = {desired[15], desired[15:0]};
+  assign ext_actual = {actual[15], actual[15:0]};
+
+  // subtract block
+  assign err = ext_actual - ext_desired;
+
+  // saturate 10 bits block
+  assign err_sat = (err[16]) ?
+    ((&err[15:9]) ? err[9:0] : 10'h200) :
+    ((|err[15:9]) ? 10'h1ff : err[9:0]);
+  
+  // ff block
+  always_ff @(posedge clk, negedge rst_n)
+    if (!rst_n)
+      for (i = 0; i < D_QUEUE_DEPTH; i = i + 1) // duplicated logic - fixed length for loop
+        prev_err[i] <= 10'h000;
+    else if (vld) begin
+      // shift data over
+      for (i = D_QUEUE_DEPTH - 1; i > 0; i = i - 1) // shift down the flops
+        prev_err[i] <= prev_err[i-1];
+      prev_err[0] = err_sat; // new data arrives at LSR
+    end
+
+  // 2nd subtract block
+  assign D_diff = err_sat - prev_err[D_QUEUE_DEPTH-1];
+
+  // saturate 7 bits block
+  assign D_diff_sat = (D_diff[9]) ? 
+    ((&D_diff[8:6]) ? D_diff[6:0] : 7'h40) :
+    ((|D_diff[8:6]) ? 7'h3f : D_diff[6:0]);
+
+  // multiply block
+  assign dterm = $signed(derivative_term) * D_diff_sat;
+
+  // 5/8 logic
+  assign half_err = {err_sat[9], err_sat[9:1]};
+  assign eigth_err = {{3{err_sat[9]}},err_sat[9:3]};
+  assign pterm = half_err + eigth_err;
+
+endmodule
